@@ -6,7 +6,7 @@ com.moonsolid.sc.domain 패키지 생성.
 
 - Board.java 생성.
   Member.java 생성
-  Lesson.java 생성
+  Schedule.java 생성
 
 ###  2: 게시물 관리를 처리하는 Command 객체 생성.
 
@@ -15,11 +15,11 @@ com.moonsolid.sc.domain 패키지 생성.
 - com.moonsolid.sc.handler 패키지에 BoardUpdateCommand.java 클래스 생성
 - com.moonsolid.sc.handler 패키지에 BoardListCommand.java 클래스 생성
 - com.moonsolid.sc.handler 패키지에 BoardDetailCommand.java 클래스 생성
-- com.moonsolid.sc.handler 패키지에 LessonAddCommand.java 클래스 생성
-- com.moonsolid.sc.handler 패키지에 LessonDeleteCommand.java 클래스 생성
-- com.moonsolid.sc.handler 패키지에 LessonUpdateCommand.java 클래스 생성
-- com.moonsolid.sc.handler 패키지에 LessonListCommand.java 클래스 생성
-- com.moonsolid.sc.handler 패키지에 LessonDetailCommand.java 클래스 생성
+- com.moonsolid.sc.handler 패키지에 ScheduleAddCommand.java 클래스 생성
+- com.moonsolid.sc.handler 패키지에 ScheduleDeleteCommand.java 클래스 생성
+- com.moonsolid.sc.handler 패키지에 ScheduleUpdateCommand.java 클래스 생성
+- com.moonsolid.sc.handler 패키지에 ScheduleListCommand.java 클래스 생성
+- com.moonsolid.sc.handler 패키지에 ScheduleDetailCommand.java 클래스 생성
 - com.moonsolid.sc.handler 패키지에 MemberAddCommand.java 클래스 생성
 - com.moonsolid.sc.handler 패키지에 MemberDeleteCommand.java 클래스 생성
 - com.moonsolid.sc.handler 패키지에 MemberUpdateCommand.java 클래스 생성
