@@ -3,14 +3,14 @@ package com.moonsolid.sc.handler;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
-import com.moonsolid.sc.domain.Schedule;
+import com.moonsolid.sc.domain.Lesson;
 
-public class ScheduleListCommand implements Command {
+public class LessonListCommand implements Command {
 
   ObjectOutputStream out;
   ObjectInputStream in;
 
-  public ScheduleListCommand(ObjectOutputStream out, ObjectInputStream in) {
+  public LessonListCommand(ObjectOutputStream out, ObjectInputStream in) {
     this.out = out;
     this.in = in;
   }
@@ -19,7 +19,7 @@ public class ScheduleListCommand implements Command {
   @Override
   public void execute() {
     try {
-      out.writeUTF("/schedule/list");
+      out.writeUTF("/lesson/list");
       out.flush();
 
       String response = in.readUTF();
@@ -28,10 +28,10 @@ public class ScheduleListCommand implements Command {
         return;
       }
 
-      List<Schedule> schedules = (List<Schedule>) in.readObject();
-      for (Schedule s : schedules) {
-        System.out.printf("%d, %s, %s , %s, %s ,%s\n", s.getNo(), s.getPlace(), s.getDescription(),
-            s.getMemo(), s.getCost(), s.getScheduleTime());
+      List<Lesson> lessons = (List<Lesson>) in.readObject();
+      for (Lesson l : lessons) {
+        System.out.printf("%d, %s, %s ~ %s, %d\n", l.getNo(), l.getTitle(), l.getStartDate(),
+            l.getEndDate(), l.getTotalHours());
       }
     } catch (Exception e) {
       System.out.println("통신 오류 발생!");

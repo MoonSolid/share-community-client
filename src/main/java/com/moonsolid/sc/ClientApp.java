@@ -16,16 +16,16 @@ import com.moonsolid.sc.handler.BoardDetailCommand;
 import com.moonsolid.sc.handler.BoardListCommand;
 import com.moonsolid.sc.handler.BoardUpdateCommand;
 import com.moonsolid.sc.handler.Command;
+import com.moonsolid.sc.handler.LessonAddCommand;
+import com.moonsolid.sc.handler.LessonDeleteCommand;
+import com.moonsolid.sc.handler.LessonDetailCommand;
+import com.moonsolid.sc.handler.LessonListCommand;
+import com.moonsolid.sc.handler.LessonUpdateCommand;
 import com.moonsolid.sc.handler.MemberAddCommand;
 import com.moonsolid.sc.handler.MemberDeleteCommand;
 import com.moonsolid.sc.handler.MemberDetailCommand;
 import com.moonsolid.sc.handler.MemberListCommand;
 import com.moonsolid.sc.handler.MemberUpdateCommand;
-import com.moonsolid.sc.handler.ScheduleAddCommand;
-import com.moonsolid.sc.handler.ScheduleDeleteCommand;
-import com.moonsolid.sc.handler.ScheduleDetailCommand;
-import com.moonsolid.sc.handler.ScheduleListCommand;
-import com.moonsolid.sc.handler.ScheduleUpdateCommand;
 import com.moonsolid.util.Prompt;
 
 public class ClientApp {
@@ -84,11 +84,11 @@ public class ClientApp {
     commandMap.put("/member/update", new MemberUpdateCommand(out, in, prompt));
     commandMap.put("/member/delete", new MemberDeleteCommand(out, in, prompt));
 
-    commandMap.put("/schedule/list", new ScheduleListCommand(out, in));
-    commandMap.put("/schedule/add", new ScheduleAddCommand(out, in, prompt));
-    commandMap.put("/schedule/detail", new ScheduleDetailCommand(out, in, prompt));
-    commandMap.put("/schedule/update", new ScheduleUpdateCommand(out, in, prompt));
-    commandMap.put("/schedule/delete", new ScheduleDeleteCommand(out, in, prompt));
+    commandMap.put("/lesson/list", new LessonListCommand(out, in));
+    commandMap.put("/lesson/add", new LessonAddCommand(out, in, prompt));
+    commandMap.put("/lesson/detail", new LessonDetailCommand(out, in, prompt));
+    commandMap.put("/lesson/update", new LessonUpdateCommand(out, in, prompt));
+    commandMap.put("/lesson/delete", new LessonDeleteCommand(out, in, prompt));
 
     try {
       while (true) {

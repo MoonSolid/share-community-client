@@ -1,4 +1,3 @@
-// "/board/add" 명령어 처리
 package com.moonsolid.sc.handler;
 
 import java.io.ObjectInputStream;

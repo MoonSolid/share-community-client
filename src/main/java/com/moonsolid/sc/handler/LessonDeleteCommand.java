@@ -4,14 +4,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import com.moonsolid.util.Prompt;
 
-public class ScheduleDeleteCommand implements Command {
+public class LessonDeleteCommand implements Command {
 
   ObjectOutputStream out;
   ObjectInputStream in;
 
   Prompt prompt;
 
-  public ScheduleDeleteCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
+  public LessonDeleteCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
     this.out = out;
     this.in = in;
     this.prompt = prompt;
@@ -20,9 +20,9 @@ public class ScheduleDeleteCommand implements Command {
   @Override
   public void execute() {
     try {
-      int no = prompt.inputInt("삭제할 일정번호를 입력하세요 : ");
+      int no = prompt.inputInt("번호? ");
 
-      out.writeUTF("/schedule/delete");
+      out.writeUTF("/lesson/delete");
       out.writeInt(no);
       out.flush();
 
@@ -32,7 +32,7 @@ public class ScheduleDeleteCommand implements Command {
         System.out.println(in.readUTF());
         return;
       }
-      System.out.println("일정을 삭제했습니다.");
+      System.out.println("수업을 삭제했습니다.");
 
     } catch (Exception e) {
       System.out.println("명령 실행 중 오류 발생!");
