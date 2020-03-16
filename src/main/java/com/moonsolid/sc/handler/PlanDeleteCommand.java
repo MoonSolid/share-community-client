@@ -4,14 +4,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import com.moonsolid.util.Prompt;
 
-public class BoardDeleteCommand implements Command {
+public class PlanDeleteCommand implements Command {
 
   ObjectOutputStream out;
   ObjectInputStream in;
 
   Prompt prompt;
 
-  public BoardDeleteCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
+  public PlanDeleteCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
     this.out = out;
     this.in = in;
     this.prompt = prompt;
@@ -20,9 +20,9 @@ public class BoardDeleteCommand implements Command {
   @Override
   public void execute() {
     try {
-      int no = prompt.inputInt("번호? ");
+      int no = prompt.inputInt("일정번호 : ");
 
-      out.writeUTF("/board/delete");
+      out.writeUTF("/plan/delete");
       out.writeInt(no);
       out.flush();
 
@@ -32,12 +32,11 @@ public class BoardDeleteCommand implements Command {
         System.out.println(in.readUTF());
         return;
       }
-      System.out.println("게시글을 삭제했습니다.");
+      System.out.println("일정을 삭제했습니다.");
 
     } catch (Exception e) {
       System.out.println("명령 실행 중 오류 발생!");
     }
   }
+
 }
-
-
