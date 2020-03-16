@@ -3,10 +3,6 @@ package com.moonsolid.sc.domain;
 import java.io.Serializable;
 import java.sql.Date;
 
-// 객체를 serialize 하려면 이 기능을 활성화시켜야 한다.
-// - java.io.Serializable을 구현하라!
-// - serialize 데이터를 구분하기 위해 버전 번호를 명시하라.
-//
 public class Board implements Serializable {
 
   private static final long serialVersionUID = 20200131L;
@@ -23,9 +19,6 @@ public class Board implements Serializable {
         + ", writer=" + writer + "]";
   }
 
-  // CSV 포맷:
-  // - 번호,제목,등록일,조회수,작성자
-  //
   public static Board valueOf(String csv) {
     String[] data = csv.split(",");
 

@@ -6,7 +6,6 @@ import java.sql.Date;
 import com.moonsolid.sc.domain.Board;
 import com.moonsolid.util.Prompt;
 
-// "/board/update" 명령 처리
 public class BoardUpdateCommand implements Command {
 
   ObjectOutputStream out;
@@ -25,7 +24,6 @@ public class BoardUpdateCommand implements Command {
     try {
       int no = prompt.inputInt("번호? ");
 
-      // 기존의 게시물을 가져온다.
       out.writeUTF("/board/detail");
       out.writeInt(no);
       out.flush();

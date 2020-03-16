@@ -23,7 +23,6 @@ public class MemberUpdateCommand implements Command {
     try {
       int no = prompt.inputInt("번호? ");
 
-      // 기존의 회원 데이터를 가져온다.
       out.writeUTF("/member/detail");
       out.writeInt(no);
       out.flush();

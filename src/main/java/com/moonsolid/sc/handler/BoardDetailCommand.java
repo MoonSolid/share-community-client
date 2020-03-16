@@ -5,7 +5,6 @@ import java.io.ObjectOutputStream;
 import com.moonsolid.sc.domain.Board;
 import com.moonsolid.util.Prompt;
 
-// "/board/detail" 명령 처리
 public class BoardDetailCommand implements Command {
 
   ObjectOutputStream out;
