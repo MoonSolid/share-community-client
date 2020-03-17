@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import com.moonsolid.sc.dao.proxy.BoardDaoProxy;
+import com.moonsolid.sc.dao.proxy.MemberDaoProxy;
+import com.moonsolid.sc.dao.proxy.PlanDaoProxy;
 import com.moonsolid.sc.handler.BoardAddCommand;
 import com.moonsolid.sc.handler.BoardDeleteCommand;
 import com.moonsolid.sc.handler.BoardDetailCommand;
@@ -71,24 +74,30 @@ public class ClientApp {
     Deque<String> commandStack = new ArrayDeque<>();
     Queue<String> commandQueue = new LinkedList<>();
 
+
+    BoardDaoProxy boardDao = new BoardDaoProxy(in, out);
+    PlanDaoProxy planDao = new PlanDaoProxy(in, out);
+    MemberDaoProxy memberDao = new MemberDaoProxy(in, out);
+
+
     HashMap<String, Command> commandMap = new HashMap<>();
-    commandMap.put("/board/list", new BoardListCommand(out, in));
-    commandMap.put("/board/add", new BoardAddCommand(out, in, prompt));
-    commandMap.put("/board/detail", new BoardDetailCommand(out, in, prompt));
-    commandMap.put("/board/update", new BoardUpdateCommand(out, in, prompt));
-    commandMap.put("/board/delete", new BoardDeleteCommand(out, in, prompt));
+    commandMap.put("/board/list", new BoardListCommand(boardDao));
+    commandMap.put("/board/add", new BoardAddCommand(boardDao, prompt));
+    commandMap.put("/board/detail", new BoardDetailCommand(boardDao, prompt));
+    commandMap.put("/board/update", new BoardUpdateCommand(boardDao, prompt));
+    commandMap.put("/board/delete", new BoardDeleteCommand(boardDao, prompt));
 
-    commandMap.put("/member/list", new MemberListCommand(out, in));
-    commandMap.put("/member/add", new MemberAddCommand(out, in, prompt));
-    commandMap.put("/member/detail", new MemberDetailCommand(out, in, prompt));
-    commandMap.put("/member/update", new MemberUpdateCommand(out, in, prompt));
-    commandMap.put("/member/delete", new MemberDeleteCommand(out, in, prompt));
+    commandMap.put("/member/list", new MemberListCommand(memberDao));
+    commandMap.put("/member/add", new MemberAddCommand(memberDao, prompt));
+    commandMap.put("/member/detail", new MemberDetailCommand(memberDao, prompt));
+    commandMap.put("/member/update", new MemberUpdateCommand(memberDao, prompt));
+    commandMap.put("/member/delete", new MemberDeleteCommand(memberDao, prompt));
 
-    commandMap.put("/plan/list", new PlanListCommand(out, in));
-    commandMap.put("/plan/add", new PlanAddCommand(out, in, prompt));
-    commandMap.put("/plan/detail", new PlanDetailCommand(out, in, prompt));
-    commandMap.put("/plan/update", new PlanUpdateCommand(out, in, prompt));
-    commandMap.put("/plan/delete", new PlanDeleteCommand(out, in, prompt));
+    commandMap.put("/plan/list", new PlanListCommand(planDao));
+    commandMap.put("/plan/add", new PlanAddCommand(planDao, prompt));
+    commandMap.put("/plan/detail", new PlanDetailCommand(planDao, prompt));
+    commandMap.put("/plan/update", new PlanUpdateCommand(planDao, prompt));
+    commandMap.put("/plan/delete", new PlanDeleteCommand(planDao, prompt));
 
     try {
       while (true) {

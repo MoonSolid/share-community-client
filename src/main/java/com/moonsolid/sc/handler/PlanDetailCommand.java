@@ -1,20 +1,16 @@
 package com.moonsolid.sc.handler;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import com.moonsolid.sc.dao.PlanDao;
 import com.moonsolid.sc.domain.Plan;
 import com.moonsolid.util.Prompt;
 
 public class PlanDetailCommand implements Command {
 
-  ObjectOutputStream out;
-  ObjectInputStream in;
-
   Prompt prompt;
+  PlanDao planDao;
 
-  public PlanDetailCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
-    this.out = out;
-    this.in = in;
+  public PlanDetailCommand(PlanDao planDao, Prompt prompt) {
+    this.planDao = planDao;
     this.prompt = prompt;
   }
 
@@ -23,18 +19,8 @@ public class PlanDetailCommand implements Command {
     try {
       int no = prompt.inputInt("일정번호 : ");
 
-      out.writeUTF("/plan/detail");
-      out.writeInt(no);
-      out.flush();
+      Plan plan = planDao.findByNo(no);
 
-      String response = in.readUTF();
-
-      if (response.equals("FAIL")) {
-        System.out.println(in.readUTF());
-        return;
-      }
-
-      Plan plan = (Plan) in.readObject();
       System.out.printf("번호: %d\n", plan.getNo());
       System.out.printf("장소: %s\n", plan.getPlace());
       System.out.printf("내용: %s\n", plan.getDescription());
@@ -44,7 +30,7 @@ public class PlanDetailCommand implements Command {
 
 
     } catch (Exception e) {
-      System.out.println("명령 실행 중 오류 발생!");
+      System.out.println("조회 실패");
     }
   }
 

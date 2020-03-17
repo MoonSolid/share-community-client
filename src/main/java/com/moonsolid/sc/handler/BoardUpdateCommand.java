@@ -1,21 +1,17 @@
 package com.moonsolid.sc.handler;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Date;
+import com.moonsolid.sc.dao.BoardDao;
 import com.moonsolid.sc.domain.Board;
 import com.moonsolid.util.Prompt;
 
 public class BoardUpdateCommand implements Command {
 
-  ObjectOutputStream out;
-  ObjectInputStream in;
-
   Prompt prompt;
+  BoardDao boardDao;
 
-  public BoardUpdateCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
-    this.out = out;
-    this.in = in;
+  public BoardUpdateCommand(BoardDao boardDao, Prompt prompt) {
+    this.boardDao = boardDao;
     this.prompt = prompt;
   }
 
@@ -23,18 +19,14 @@ public class BoardUpdateCommand implements Command {
   public void execute() {
     try {
       int no = prompt.inputInt("번호? ");
-
-      out.writeUTF("/board/detail");
-      out.writeInt(no);
-      out.flush();
-
-      String response = in.readUTF();
-      if (response.equals("FAIL")) {
-        System.out.println(in.readUTF());
+      Board oldBoard = null;
+      try {
+        oldBoard = boardDao.findByNo(no);
+      } catch (Exception e) {
+        System.out.println("해당 번호의 게시글이 없습니다");
         return;
       }
 
-      Board oldBoard = (Board) in.readObject();
       Board newBoard = new Board();
 
       newBoard.setNo(oldBoard.getNo());
@@ -48,20 +40,11 @@ public class BoardUpdateCommand implements Command {
         return;
       }
 
-      out.writeUTF("/board/update");
-      out.writeObject(newBoard);
-      out.flush();
-
-      response = in.readUTF();
-      if (response.equals("FAIL")) {
-        System.out.println(in.readUTF());
-        return;
-      }
-
+      boardDao.update(newBoard);
       System.out.println("게시글을 변경했습니다.");
 
     } catch (Exception e) {
-      System.out.println("명령 실행 중 오류 발생!");
+      System.out.println("변경 실패");
     }
   }
 }

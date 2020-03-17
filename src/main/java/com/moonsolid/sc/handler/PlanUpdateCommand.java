@@ -1,20 +1,16 @@
 package com.moonsolid.sc.handler;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import com.moonsolid.sc.dao.PlanDao;
 import com.moonsolid.sc.domain.Plan;
 import com.moonsolid.util.Prompt;
 
 public class PlanUpdateCommand implements Command {
 
-  ObjectOutputStream out;
-  ObjectInputStream in;
-
   Prompt prompt;
+  PlanDao planDao;
 
-  public PlanUpdateCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
-    this.out = out;
-    this.in = in;
+  public PlanUpdateCommand(PlanDao planDao, Prompt prompt) {
+    this.planDao = planDao;
     this.prompt = prompt;
   }
 
@@ -22,18 +18,15 @@ public class PlanUpdateCommand implements Command {
   public void execute() {
     try {
       int no = prompt.inputInt("일정번호 : ");
-
-      out.writeUTF("/plan/detail");
-      out.writeInt(no);
-      out.flush();
-
-      String response = in.readUTF();
-      if (response.equals("FAIL")) {
-        System.out.println(in.readUTF());
+      Plan oldPlan = null;
+      try {
+        oldPlan = planDao.findByNo(no);
+      } catch (Exception e) {
+        System.out.println("해당 번호의 일정이 없습니다");
         return;
       }
 
-      Plan oldPlan = (Plan) in.readObject();
+
       Plan newPlan = new Plan();
 
       newPlan.setNo(oldPlan.getNo());
@@ -54,21 +47,12 @@ public class PlanUpdateCommand implements Command {
         System.out.println("일정 변경을 취소하였습니다.");
         return;
       }
-      out.writeUTF("/plan/update");
-      out.writeObject(newPlan);
-      out.flush();
 
-      response = in.readUTF();
-      if (response.equals("FAIL")) {
-        System.out.println(in.readUTF());
-        return;
-      }
-
+      planDao.update(newPlan);
       System.out.println("일정을 변경했습니다.");
 
     } catch (Exception e) {
-      System.out.println("명령 실행 중 오류 발생!");
+      System.out.println("변경 실패");
     }
   }
-
 }

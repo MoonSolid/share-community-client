@@ -1,20 +1,16 @@
 package com.moonsolid.sc.handler;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import com.moonsolid.sc.dao.PlanDao;
 import com.moonsolid.sc.domain.Plan;
 import com.moonsolid.util.Prompt;
 
 public class PlanAddCommand implements Command {
 
-  ObjectOutputStream out;
-  ObjectInputStream in;
-
   Prompt prompt;
+  PlanDao planDao;
 
-  public PlanAddCommand(ObjectOutputStream out, ObjectInputStream in, Prompt prompt) {
-    this.out = out;
-    this.in = in;
+  public PlanAddCommand(PlanDao planDao, Prompt prompt) {
+    this.planDao = planDao;
     this.prompt = prompt;
   }
 
@@ -29,20 +25,11 @@ public class PlanAddCommand implements Command {
     plan.setCost(prompt.inputString("비용 :"));
 
     try {
-      out.writeUTF("/plan/add");
-      out.writeObject(plan);
-      out.flush();
-
-      String response = in.readUTF();
-      if (response.equals("FAIL")) {
-        System.out.println(in.readUTF());
-        return;
-      }
-
+      planDao.insert(plan);
       System.out.println("저장하였습니다.");
 
     } catch (Exception e) {
-      System.out.println("통신 오류 발생!");
+      System.out.println("데이터 저장 실패");
     }
   }
 
