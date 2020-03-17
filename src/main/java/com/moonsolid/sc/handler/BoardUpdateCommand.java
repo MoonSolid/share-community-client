@@ -1,6 +1,5 @@
 package com.moonsolid.sc.handler;
 
-import java.sql.Date;
 import com.moonsolid.sc.dao.BoardDao;
 import com.moonsolid.sc.domain.Board;
 import com.moonsolid.util.Prompt;
@@ -30,12 +29,10 @@ public class BoardUpdateCommand implements Command {
       Board newBoard = new Board();
 
       newBoard.setNo(oldBoard.getNo());
-      newBoard.setViewCount(oldBoard.getViewCount());
-      newBoard.setDate(new Date(System.currentTimeMillis()));
       newBoard.setTitle(
           prompt.inputString(String.format("내용(%s)? ", oldBoard.getTitle()), oldBoard.getTitle()));
 
-      if (newBoard.equals(oldBoard)) {
+      if (newBoard.getTitle().equals(oldBoard.getTitle())) {
         System.out.println("게시글 변경을 취소했습니다.");
         return;
       }

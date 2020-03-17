@@ -1,8 +1,5 @@
 package com.moonsolid.sc;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -10,10 +7,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-import com.moonsolid.sc.dao.proxy.BoardDaoProxy;
-import com.moonsolid.sc.dao.proxy.DaoProxyHelper;
-import com.moonsolid.sc.dao.proxy.MemberDaoProxy;
-import com.moonsolid.sc.dao.proxy.PlanDaoProxy;
+import com.moonsolid.sc.dao.BoardDao;
+import com.moonsolid.sc.dao.MemberDao;
+import com.moonsolid.sc.dao.PlanDao;
+import com.moonsolid.sc.dao.mariadb.BoardDaoImpl;
+import com.moonsolid.sc.dao.mariadb.MemberDaoImpl;
+import com.moonsolid.sc.dao.mariadb.PlanDaoImpl;
 import com.moonsolid.sc.handler.BoardAddCommand;
 import com.moonsolid.sc.handler.BoardDeleteCommand;
 import com.moonsolid.sc.handler.BoardDetailCommand;
@@ -40,30 +39,16 @@ public class ClientApp {
   Deque<String> commandStack;
   Queue<String> commandQueue;
 
-  String host;
-  int port;
-
   HashMap<String, Command> commandMap = new HashMap<>();
 
   public ClientApp() {
+
     commandStack = new ArrayDeque<>();
     commandQueue = new LinkedList<>();
 
-
-
-    try {
-      host = prompt.inputString("서버주소를 입력하세요 : ");
-      port = prompt.inputInt("포트번호를 입력하세요 : ");
-    } catch (Exception e) {
-      System.out.println("서버 주소 또는 포트 번호가 유효하지 않습니다!");
-      keyboard.close();
-      return;
-    }
-    DaoProxyHelper daoProxyHelper = new DaoProxyHelper(host, port);
-
-    BoardDaoProxy boardDao = new BoardDaoProxy(daoProxyHelper);
-    PlanDaoProxy planDao = new PlanDaoProxy(daoProxyHelper);
-    MemberDaoProxy memberDao = new MemberDaoProxy(daoProxyHelper);
+    BoardDao boardDao = new BoardDaoImpl();
+    MemberDao memberDao = new MemberDaoImpl();
+    PlanDao planDao = new PlanDaoImpl();
 
     commandMap.put("/board/list", new BoardListCommand(boardDao));
     commandMap.put("/board/add", new BoardAddCommand(boardDao, prompt));
@@ -83,20 +68,6 @@ public class ClientApp {
     commandMap.put("/plan/update", new PlanUpdateCommand(planDao, prompt));
     commandMap.put("/plan/delete", new PlanDeleteCommand(planDao, prompt));
 
-    commandMap.put("/server/stop", () -> {
-      try {
-        try (Socket socket = new Socket(host, port);
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
-
-          out.writeUTF("/server/stop");
-          out.flush();
-          System.out.println("서버: " + in.readUTF());
-          System.out.println("서버가 종료되었습니다");
-        }
-      } catch (Exception e) {
-      }
-    });
   }
 
   public void service() {
@@ -123,9 +94,7 @@ public class ClientApp {
       commandQueue.offer(command);
 
       processCommand(command);
-
     }
-
     keyboard.close();
   }
 

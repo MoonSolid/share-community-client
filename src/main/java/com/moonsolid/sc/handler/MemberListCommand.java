@@ -12,7 +12,6 @@ public class MemberListCommand implements Command {
     this.memberDao = memberDao;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public void execute() {
     try {

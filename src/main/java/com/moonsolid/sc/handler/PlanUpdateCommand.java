@@ -43,7 +43,7 @@ public class PlanUpdateCommand implements Command {
       newPlan.setCost(prompt.inputString(String.format("비용을 입력하세요 : (기존비용 : %s)", //
           oldPlan.getCost()), oldPlan.getCost()));
 
-      if (oldPlan.equals(newPlan)) {
+      if (newPlan.getDescription().equals(oldPlan.getDescription())) {
         System.out.println("일정 변경을 취소하였습니다.");
         return;
       }

@@ -17,12 +17,10 @@ public class PlanAddCommand implements Command {
   @Override
   public void execute() {
     Plan plan = new Plan();
-
-    plan.setNo(prompt.inputInt("일정번호 : "));
     plan.setPlace(prompt.inputString("일정장소 : "));
-    plan.setDescription(prompt.inputString("내용 :"));
-    plan.setMemo(prompt.inputString("메모 :"));
-    plan.setCost(prompt.inputString("비용 :"));
+    plan.setDescription(prompt.inputString("내용 : "));
+    plan.setMemo(prompt.inputString("메모 : "));
+    plan.setCost(prompt.inputString("비용 : "));
 
     try {
       planDao.insert(plan);
@@ -32,5 +30,4 @@ public class PlanAddCommand implements Command {
       System.out.println("데이터 저장 실패");
     }
   }
-
 }
