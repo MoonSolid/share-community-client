@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 import com.moonsolid.sc.dao.proxy.BoardDaoProxy;
+import com.moonsolid.sc.dao.proxy.DaoProxyHelper;
 import com.moonsolid.sc.dao.proxy.MemberDaoProxy;
 import com.moonsolid.sc.dao.proxy.PlanDaoProxy;
 import com.moonsolid.sc.handler.BoardAddCommand;
@@ -58,11 +59,11 @@ public class ClientApp {
       keyboard.close();
       return;
     }
+    DaoProxyHelper daoProxyHelper = new DaoProxyHelper(host, port);
 
-
-    BoardDaoProxy boardDao = new BoardDaoProxy(host, port);
-    PlanDaoProxy planDao = new PlanDaoProxy(host, port);
-    MemberDaoProxy memberDao = new MemberDaoProxy(host, port);
+    BoardDaoProxy boardDao = new BoardDaoProxy(daoProxyHelper);
+    PlanDaoProxy planDao = new PlanDaoProxy(daoProxyHelper);
+    MemberDaoProxy memberDao = new MemberDaoProxy(daoProxyHelper);
 
     commandMap.put("/board/list", new BoardListCommand(boardDao));
     commandMap.put("/board/add", new BoardAddCommand(boardDao, prompt));
