@@ -74,7 +74,6 @@ public class ClientApp {
       }
 
       servletPath = url.substring(index);
-      System.out.printf("=> %s\n", servletPath);
 
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -94,8 +93,12 @@ public class ClientApp {
         String response = in.nextLine();
         if (response.equals("!end!")) {
           break;
+        } else if (response.equals("!{}!")) {
+          String input = prompt.inputString("");
+          out.println(input);
+        } else {
+          System.out.println(response);
         }
-        System.out.println(response);
       }
 
     } catch (Exception e) {
