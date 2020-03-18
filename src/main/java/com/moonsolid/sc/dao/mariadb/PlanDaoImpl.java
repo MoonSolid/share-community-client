@@ -45,6 +45,10 @@ public class PlanDaoImpl implements PlanDao {
         Plan plan = new Plan();
 
         plan.setNo(rs.getInt("plan_id"));
+        plan.setPlace(rs.getString("place"));
+        plan.setDescription(rs.getString("cont"));
+        plan.setMemo(rs.getString("memo"));
+        plan.setCost(rs.getString("cost"));
 
         list.add(plan);
       }

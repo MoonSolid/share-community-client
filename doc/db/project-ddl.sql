@@ -1,4 +1,7 @@
--- 수업 테이블 삭제 
+-- 사진 게시판 테이블 삭제
+drop table if exists sc_photo;
+
+-- 일정 테이블 삭제 
 drop table if exists sc_plan;
 
 -- 회원 테이블 삭제
@@ -7,9 +10,6 @@ drop table if exists sc_member;
 -- 게시판 테이블 삭제 
 drop table if exists sc_board;
 
--- 사진 게시판 테이블 삭제
-drop table if exists sc_photo;
-
 -- 사진 게시물 첨부 파일 테이블 삭제
 drop table if exists sc_photo_file;
 
@@ -17,8 +17,8 @@ drop table if exists sc_photo_file;
 create table sc_plan (
   plan_id int not null auto_increment primary key comment '일정 데이터 식별 번호', 
   place varchar(255) not null comment '일정 장소',
-  cont varchar(255) not null comment '일정 내용',
-  memo varchar(255) not null comment '메모',
+  cont text not null comment '일정 내용',
+  memo text not null comment '메모',
   cost varchar(30) not null comment '비용'
 ) comment '일정'; 
 
