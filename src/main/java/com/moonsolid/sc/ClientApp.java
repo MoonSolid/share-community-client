@@ -1,5 +1,7 @@
 package com.moonsolid.sc;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -39,16 +41,22 @@ public class ClientApp {
   Deque<String> commandStack;
   Queue<String> commandQueue;
 
+  Connection con;
+
   HashMap<String, Command> commandMap = new HashMap<>();
 
-  public ClientApp() {
+  public ClientApp() throws Exception {
 
     commandStack = new ArrayDeque<>();
     commandQueue = new LinkedList<>();
 
-    BoardDao boardDao = new BoardDaoImpl();
-    MemberDao memberDao = new MemberDaoImpl();
-    PlanDao planDao = new PlanDaoImpl();
+    Class.forName("org.mariadb.jdbc.Driver");
+    con = DriverManager.getConnection(//
+        "jdbc:mariadb://localhost:3306/scdb", "study", "1111");
+
+    BoardDao boardDao = new BoardDaoImpl(con);
+    MemberDao memberDao = new MemberDaoImpl(con);
+    PlanDao planDao = new PlanDaoImpl(con);
 
     commandMap.put("/board/list", new BoardListCommand(boardDao));
     commandMap.put("/board/add", new BoardAddCommand(boardDao, prompt));
